@@ -2,7 +2,7 @@ const billAmount = document.getElementById('bill');
 const tipPercentage = document.getElementById('tip-percent');
 const numberOfPeople = document.getElementById('people');
 const tipAmount = document.getElementById('tip-amount');
-const perPerson = document.getElementById('total-per-person');
+const totalPerPerson = document.getElementById('total-per-person');
 const submitBtn = document.getElementById('calc');
 
 function showMessage(msg) {
@@ -20,41 +20,40 @@ function showMessage(msg) {
     document.body.appendChild(banner);
   
     setTimeout(() => banner.remove(), 3000);
-}
-
-function checkIfNotEmpty (billAmountFloat, tipPercentageFloat, numberOfPeopleFloat) {
-    if (billAmountFloat == null || billAmountFloat == "" || tipPercentageFloat == null || tipPercentageFloat == "" || numberOfPeopleFloat == null || numberOfPeopleFloat == "") {
-        showMessage('Please, fill in all the fields');
-        return true;
-    }
-}
-
-function computeTip(billAmount, tipPercentage, numberOfPeople) {
-    const billAmountFloat = parseFloat(billAmount.value, 0.01);
-    const tipPercentageFloat = parseFloat(tipPercentage.value, 0.01);
-    const numberOfPeopleFloat = parseFloat(numberOfPeople.value, 1);
-
-    const somethingIsEmpty = checkIfNotEmpty(billAmountFloat, tipPercentageFloat, numberOfPeopleFloat);
-    
-    if (somethingIsEmpty === true) {
-        return;
-    }
-
-    if (billAmountFloat <= 0 || tipPercentageFloat <=0 || numberOfPeopleFloat <=0 ) {
-        showMessage('Please enter number greater than 0')
-        return;
-    } else {
-        const billIncreasedWithTip = billAmountFloat * (tipPercentageFloat / 100);
-        const tipTotal = billIncreasedWithTip - billAmountFloat;
-        const tipPerPerson = tipTotal / numberOfPeopleFloat;
-        return(tipPerPerson);
-    }
 };
 
-submitBtn.addEventListener('click',(e) => {
+function computeTip() {
+    const billVal = billAmount.value;
+    const tipVal = tipPercentage.value;
+    const peopleVal = numberOfPeople.value;
+    
+    if (!billVal || !tipVal || !peopleVal) {
+        showMessage('Please, fill in all the fields');
+        return null;
+    }
+
+    const bill = parseFloat(billVal);
+    const tipPct = parseFloat(tipVal);
+    const people = parseInt(peopleVal, 10);
+
+    if (bill <= 0 || tipPct <= 0 || people <= 0) {
+        showMessage('Please enter numbers greater than 0');
+        return null;
+    }
+
+    const tipTotal = bill * (tipPct / 100);
+    const tipPerPerson = tipTotal / people;
+    const totalVal = (bill + tipTotal) / people;
+  
+    return { tipPerPerson, totalPerPerson: totalVal };
+}
+
+submitBtn.addEventListener('click', (e) => {
     e.preventDefault();
-
-    const tipToSplit = computeTip(billAmount, tipPercentage, numberOfPeople);
-
-    Math.round(tipToSplit);
-})
+  
+    const result = computeTip();
+    if (!result) return;
+  
+    tipAmount.textContent = result.tipPerPerson.toFixed(2);
+    totalPerPerson.textContent = result.totalPerPerson.toFixed(2);
+  });
