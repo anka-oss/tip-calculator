@@ -1,0 +1,23 @@
+{
+  "name": "tip-calculator",
+  "version": "1.0.0",
+  "description": "A simple, responsive Tip Calculator web application built with vanilla HTML, CSS, and JavaScript. Enter the bill amount, desired tip percentage, and number of people to instantly see how much tip each person should pay and the total amount per person. Perfect as a beginner’s project to master core web technologies.",
+  "main": "script.js",
+  "scripts": {
+    "test": "playwright test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/anka-oss/tip-calculator.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/anka-oss/tip-calculator/issues"
+  },
+  "homepage": "https://github.com/anka-oss/tip-calculator#readme",
+  "devDependencies": {
+    "@playwright/test": "^1.52.0"
+  }
+}
