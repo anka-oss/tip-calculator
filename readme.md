@@ -14,6 +14,15 @@ Prosta, responsywna aplikacja Kalkulator Napiwków stworzona w czystym HTML, CSS
 - Responsive layout for mobile and desktop
 - User-friendly validation with error messages
 
+## Live demo
+Check out the live version of the app: [ossowska.tech/tip-calculator](https://ossowska.tech/tip-calculator)
+
+## Technologies used
+- Semantic HTML5
+- CSS3 (Flexbox)
+- Vanilla JavaScript (ES6)
+- Playwright for end-to-end testing
+
 ## Planned Enhancements
 - **Dark mode toggle**: allow users to switch between light and dark themes for better readability in low-light environments (coming soon)
 - Remember user preference with `localStorage`
@@ -32,6 +41,21 @@ Prosta, responsywna aplikacja Kalkulator Napiwków stworzona w czystym HTML, CSS
    ```bash
    npx serve .
    ```
+
+## Testing
+This project includes my first automated test written using Playwright. The test verifies the correct calculation of tips and totals based on user input.
+
+### To run the test:
+1. Install dependencies:
+   ```bash
+   npm install
+   ```
+2. Run the test
+   ```
+   npm test
+   ```
+
+The test script is located in the test/ directory.
 
 ## Usage
 1. Enter the **Bill Amount** in the first input field.
