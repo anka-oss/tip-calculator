@@ -19,6 +19,18 @@ test.describe('Main logic', () => {
         await expect(page.locator('[data-cy=tip-per-person]')).toHaveText('7.50');
         await expect(page.locator('[data-cy=total-per-person]')).toHaveText('57.50');
     });
+
+    test('rounds decimals correctly for tip and total per person', async ({ page }) => {
+        await page.fill('[data-cy=bill-input]', '100.005');
+        await page.fill('[data-cy=tip-input]', '12.345');
+        await page.fill('[data-cy=people-input]', '3');
+
+    
+        await page.click('[data-cy=calculate-btn]');
+
+        await expect(page.locator('[data-cy=tip-per-person]')).toHaveText('4.12');
+        await expect(page.locator('[data-cy=total-per-person]')).toHaveText('37.45');
+    });
 });
 
 test.describe('Negative numbers', () => {
@@ -204,5 +216,16 @@ test.describe('Fields required', () => {
         const banner = page.locator('[data-cy=message-banner]');
         await expect(banner).toBeVisible();
         await expect(banner).toHaveText('Please, fill in all the fields');
+    });
+});
+
+test.describe('Default-people behavior', () => {
+    test('uses default people count of 1 when people input is untouched', async ({ page }) => {
+        await page.fill('[data-cy=bill-input]', '100');
+        await page.fill('[data-cy=tip-input]', '20');
+        await page.click('[data-cy=calculate-btn]');
+
+        await expect(page.locator('[data-cy=tip-per-person]')).toHaveText('20.00');
+        await expect(page.locator('[data-cy=total-per-person]')).toHaveText('120.00');
     });
 });
