@@ -91,4 +91,118 @@ test.describe('Error message dismisal', () => {
         await page.waitForTimeout(3001);
         await expect(banner).toBeHidden();
     });
+
+    test('the tip percent cannot be empty', async ({ page }) => {
+        // 1. Fill in bill amount = 200
+        await page.fill('[data-cy=bill-input]', '200');
+        // 2. Set people = 5
+        await page.fill('[data-cy=people-input]', '5');
+        // 3. Triger calculation
+        await page.click('[data-cy=calculate-btn]');
+
+        // 4. Result
+        const banner = page.locator('[data-cy=message-banner]');
+        await expect(banner).toBeVisible();
+        await expect(banner).toHaveText('Please, fill in all the fields');
+
+        // 5. Banner dismissed
+        await page.waitForTimeout(3001);
+        await expect(banner).toBeHidden();
+    });
+});
+
+test.describe('Zero not allowed', () => {
+    test('zero not possible in the bill amount', async ({ page }) => {
+        // 1. Fill in bill amount = 0
+        await page.fill('[data-cy=bill-input]', '0');
+        // 2. Fill in tip percent = 10
+        await page.fill('[data-cy=tip-input]', '10');
+        // 3. Set people = 3
+        await page.fill('[data-cy=people-input]', '3');
+        // 4. Triger calculation
+        await page.click('[data-cy=calculate-btn]');
+
+        // 5. Result
+        const banner = page.locator('[data-cy=message-banner]');
+        await expect(banner).toBeVisible();
+        await expect(banner).toHaveText('Please enter numbers greater than 0');
+    });
+
+    test('zero not possible in the tip percent', async ({ page }) => {
+        // 1. Fill in bill amount = 200
+        await page.fill('[data-cy=bill-input]', '200');
+        // 2. Fill in tip percent = 0
+        await page.fill('[data-cy=tip-input]', '0');
+        // 3. Set people = 5
+        await page.fill('[data-cy=people-input]', '5');
+        // 4. Triger calculation
+        await page.click('[data-cy=calculate-btn]');
+
+        // 5. Result
+        const banner = page.locator('[data-cy=message-banner]');
+        await expect(banner).toBeVisible();
+        await expect(banner).toHaveText('Please enter numbers greater than 0');
+    });
+
+    test('zero not possible in the people input', async ({ page }) => {
+        // 1. Fill in bill amount = 200
+        await page.fill('[data-cy=bill-input]', '200');
+        // 2. Fill in tip percent = 10
+        await page.fill('[data-cy=tip-input]', '10');
+        // 3. Set people = 0
+        await page.fill('[data-cy=people-input]', '0');
+        // 4. Triger calculation
+        await page.click('[data-cy=calculate-btn]');
+
+        // 5. Result
+        const banner = page.locator('[data-cy=message-banner]');
+        await expect(banner).toBeVisible();
+        await expect(banner).toHaveText('Please enter numbers greater than 0');
+    });
+});
+
+test.describe('Fields required', () => {
+    test('the bill amount cannot be empty', async ({ page }) => {
+        // 1. Fill in tip percent = 10
+        await page.fill('[data-cy=tip-input]', '10');
+        // 2. Set people = 3
+        await page.fill('[data-cy=people-input]', '3');
+        // 3. Triger calculation
+        await page.click('[data-cy=calculate-btn]');
+
+        // 4. Result
+        const banner = page.locator('[data-cy=message-banner]');
+        await expect(banner).toBeVisible();
+        await expect(banner).toHaveText('Please, fill in all the fields');
+    });
+
+    test('the tip percent cannot be empty', async ({ page }) => {
+        // 1. Fill in bill amount = 200
+        await page.fill('[data-cy=bill-input]', '200');
+        // 2. Set people = 5
+        await page.fill('[data-cy=people-input]', '5');
+        // 3. Triger calculation
+        await page.click('[data-cy=calculate-btn]');
+
+        // 4. Result
+        const banner = page.locator('[data-cy=message-banner]');
+        await expect(banner).toBeVisible();
+        await expect(banner).toHaveText('Please, fill in all the fields');
+    });
+
+    test('the people input cannot be empty', async ({ page }) => {
+        // 1. Fill in bill amount = 200
+        await page.fill('[data-cy=bill-input]', '200');
+        // 2. Fill in tip percent = 10
+        await page.fill('[data-cy=tip-input]', '10');
+        // 2. Set people = 5
+        await page.fill('[data-cy=people-input]', ' ');
+        // 3. Triger calculation
+        await page.click('[data-cy=calculate-btn]');
+
+        // 5. Result
+        const banner = page.locator('[data-cy=message-banner]');
+        await expect(banner).toBeVisible();
+        await expect(banner).toHaveText('Please, fill in all the fields');
+    });
 });
