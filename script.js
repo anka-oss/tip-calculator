@@ -7,6 +7,7 @@ const submitBtn = document.getElementById('calc');
 
 function showMessage(msg) {
     const banner = document.createElement('div');
+    banner.setAttribute('data-cy', 'message-banner');
     banner.textContent = msg;
     banner.style.position = 'fixed';
     banner.style.top = '1rem';
